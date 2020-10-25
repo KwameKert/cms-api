@@ -26,7 +26,6 @@ async function createUser(req, res){
 }
 
 
-
 async function updateUser(req, res){
     try{
         let params = req.body;
