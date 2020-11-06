@@ -1,5 +1,5 @@
 const Department = require('../../models/Department');
-
+const Leader = require('../../models/Leader');
 
 
 const responseApi = (res, status, data, message)=>{
@@ -30,8 +30,8 @@ async function updateDepartment(req, res){
         return responseApi(res, 200, updatedDepartment, "department updated");
 
     }catch(error){
-    
-       return responseApi(res, 500, null, error.message); 
+
+        return responseApi(res, 500, null, error.message); 
     }
 
 }
@@ -40,17 +40,18 @@ async function updateDepartment(req, res){
 async function findDepartment(req, res){
     try{
         let departmentFound = await getDepartment({id: req.params.id});
+        let department = await Department.findOne({where: {id: req.params.id}, include: Leader});
         if(!departmentFound){
             return responseApi(res, 400, null, "department doesnt exist");
         }
-        return responseApi(res, 200, departmentFound, "department found");
+        return responseApi(res, 200, department, "department found");
     }catch(error){
         return responseApi(res, 500, null, error.message);
     }
 }
 
 async function fetchAllDepartments(req, res){
-        
+
     try{
         let departments = await Department.findAll();
         if(departments.length < 1){
@@ -59,7 +60,7 @@ async function fetchAllDepartments(req, res){
         return responseApi(res, 200, departments, "departments found");
     }catch(error){
         return responseApi(res, 500, null, error.message);
-        
+
     }
 }
 
