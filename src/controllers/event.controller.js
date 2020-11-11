@@ -21,6 +21,26 @@ async function createEvent(req, res){
     
 }
 
+
+async function updateEvent(req, res){
+    try{
+        let params = req.body;
+        let eventFound = await getEvent({id: params.id});
+        if(!departmentFound){
+            return responseApi(res, 400, null, "event doesnt exist")
+        }
+        await Event.update({...params}, {where: {id: params.id}});
+        let updatedEvent = await Event.findOne({where: {id: params.id}});
+        return responseApi(res, 200, updatedEvent, "event updated");
+
+    }catch(error){
+
+        return responseApi(res, 500, null, error.message); 
+    }
+
+}
+
+
 async function findEvent(req, res){
     try{
         let event = await getEvent({id: req.params.id});
@@ -59,6 +79,7 @@ async function getEvent(query){
 module.exports = {
     createEvent,
     findEvent,
-    fetchEvents
+    fetchEvents,
+    updateEvent
 
 }
