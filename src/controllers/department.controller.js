@@ -10,6 +10,7 @@ const responseApi = (res, status, data, message)=>{
 async function createDepartment(req, res){
     try{
         let params = req.body;
+	//console.log(params);
         let saveDepartment = await Department.create({...params});
         return responseApi(res, 201, saveDepartment, "department added");
     }catch(error){
