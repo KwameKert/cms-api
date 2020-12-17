@@ -7,7 +7,7 @@ router.post('/', departmentController.createDepartment);
 router.patch('/', departmentController.updateDepartment);
 router.get('/:id', departmentController.findDepartment);
 router.get('/', departmentController.fetchAllDepartments);
-
+router.delete('/:id', departmentController.deleteDepartment);
 
 
 module.exports = router;

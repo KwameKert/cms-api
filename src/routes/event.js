@@ -6,6 +6,7 @@ const authMiddleware = require('../middlewares/auth');
 router.post('/', eventController.createEvent);
 router.patch('/', eventController.updateEvent);
 router.get('/:id',authMiddleware,  eventController.findEvent);
+router.delete('/:id',authMiddleware,  eventController.deleteEvent);
 router.get('/', eventController.fetchEvents);
 
 

@@ -25,8 +25,10 @@ async function createEvent(req, res){
 async function updateEvent(req, res){
     try{
         let params = req.body;
+
         let eventFound = await getEvent({id: params.id});
-        if(!departmentFound){
+        console.log("Event here", eventFound)
+        if(!eventFound){
             return responseApi(res, 400, null, "event doesnt exist")
         }
         await Event.update({...params}, {where: {id: params.id}});
@@ -43,6 +45,7 @@ async function updateEvent(req, res){
 
 async function findEvent(req, res){
     try{
+       
         let event = await getEvent({id: req.params.id});
         if(!event){
             return responseApi(res, 400, null, "no event found")
@@ -76,10 +79,27 @@ async function getEvent(query){
     return event;
 }
 
+
+async function deleteEvent(req, res){
+    try{
+
+        let event = await getEvent({id: req.params.id});
+        if(!event){
+            return responseApi(res, 400, null, "no event found")
+        }
+        await event.destroy();
+        return responseApi(res,200, null, "event deleted");
+
+    }catch(error){
+
+    }
+}
+
 module.exports = {
     createEvent,
     findEvent,
     fetchEvents,
-    updateEvent
+    updateEvent,
+    deleteEvent
 
 }

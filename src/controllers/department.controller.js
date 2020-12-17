@@ -54,7 +54,7 @@ async function findDepartment(req, res){
 async function fetchAllDepartments(req, res){
 
     try{
-        let departments = await Department.findAll();
+        let departments = await Department.findAll({ order: [['updatedAt', 'DESC']] });
         if(departments.length < 1){
             return responseApi(res, 204, null, "no departments availbale");
         }
@@ -65,7 +65,22 @@ async function fetchAllDepartments(req, res){
     }
 }
 
+async function deleteDepartment(req, res){
 
+	try{
+	 let department = await Department.findOne({ where: { id: req.params.id } });
+      if(department){
+         await department.destroy();
+        return responseApi(res, 200, null, "Department deleted ");
+      }else{
+          return responseApi(res, 400, null, "No department found");
+      }
+
+	}catch(error){
+		return responseApi(res, 500, null, error.message);
+	}
+
+}
 
 async function getDepartment(query){
     let department = await Department.findOne({...query});
@@ -78,6 +93,7 @@ module.exports = {
     createDepartment,
     updateDepartment,
     findDepartment,
+    deleteDepartment,
     fetchAllDepartments
 
 }
