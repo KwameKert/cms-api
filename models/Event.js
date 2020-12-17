@@ -9,7 +9,8 @@ const Event = sequelize.define('Event', {
         defaultValue: 'inactive'
     },
     imageUrl: DataTypes.STRING,
-    expiration: DataTypes.DATE,
+    startDate: DataTypes.DATE,
+    endDate: DataTypes.DATE,
     content: DataTypes.TEXT
 })
 
