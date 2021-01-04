@@ -1,5 +1,6 @@
 const Event = require('../../models/Event');
-
+const Verse = require('../../models/Verse');
+const { Op } = require("sequelize");
 
 
 const responseApi = (res, status, data, message)=>{
@@ -8,26 +9,21 @@ const responseApi = (res, status, data, message)=>{
 
 
 async function createEvent(req, res){
-    
     try{
-
         let saveEvent = await Event.create({...req.body});
         return responseApi(res, 201, saveEvent, "event added");
-
     }catch(e){
         console.error(e.message);
         return responseApi(res, 500, null, e.message);
     }
-    
 }
 
 
 async function updateEvent(req, res){
     try{
         let params = req.body;
-
         let eventFound = await getEvent({id: params.id});
-        console.log("Event here", eventFound)
+        //console.log("Event here", eventFound)
         if(!eventFound){
             return responseApi(res, 400, null, "event doesnt exist")
         }
@@ -36,7 +32,7 @@ async function updateEvent(req, res){
         return responseApi(res, 200, updatedEvent, "event updated");
 
     }catch(error){
-
+        console.error(error);
         return responseApi(res, 500, null, error.message); 
     }
 
@@ -95,11 +91,33 @@ async function deleteEvent(req, res){
     }
 }
 
+
+async function fetchFrontPage(req, res){
+        try{
+            let nextEvent = await Event.findOne({
+                attributes: ['endDate'],
+                where: {
+                    endDate: {
+                        [Op.gt]:Date.now()
+                    }
+                }
+            })
+            let verseOfWeek = await Verse.findOne({status: 'active'});
+            return responseApi(res, 200, {nextEvent, verseOfWeek}, 'Site components fetched');
+
+        }catch(e){
+            console.error(e.message);
+            return responseApi(res, 500, null, e.message);
+        }
+    
+}
+
 module.exports = {
     createEvent,
     findEvent,
     fetchEvents,
     updateEvent,
-    deleteEvent
+    deleteEvent,
+    fetchFrontPage
 
 }

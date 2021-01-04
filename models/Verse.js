@@ -7,7 +7,8 @@ const Verse = sequelize.define('Verse', {
 	status: {
 		type:DataTypes.ENUM('active', 'inactive'),
 		allowNull: true
-	}
+	},
+	content: DataTypes.TEXT
 
 });
 

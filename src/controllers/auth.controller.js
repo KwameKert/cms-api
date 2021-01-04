@@ -1,8 +1,13 @@
 const User = require('../../models/User');
+const Sermon = require('../../models/Sermon');
+const Event = require('../../models/Event');
+const Verse = require('../../models/Verse');
 const logger = require('../logger');
+const { Op } = require("sequelize");
 //const nice = require('../../)
 
 const { getUserToken,  hashPassword, verifyPassword } = require('../utils/auth');
+
 
 
 const responseApi = (res, status, data, message) => {
@@ -39,6 +44,28 @@ async function login(req, res){
 
 }
 
+async function fetchDashboard(req, res){
+	try{
+		let sermons = await Sermon.count();
+		let events = await Event.count();
+		let verses = await Verse.count();
+		let nextEvent = await Event.findOne({
+			attributes: ['endDate'],
+			where: {
+				endDate: {
+					[Op.gt]:Date.now()
+				}
+			}
+		})
+
+		return responseApi(res,200,{sermons, events, verses, nextEvent},'Dashboard components' );
+
+	}catch(e){
+		logger.error(e.message);
+		return responseApi(res, 500, null, e.message);
+	}  
+}
+
 
 async function getUser(query){
 	let userFound = await User.findOne({where: {...query}});
@@ -46,6 +73,7 @@ async function getUser(query){
 }
 
 module.exports = {
-	login
+	login,
+	fetchDashboard
 
 }
