@@ -102,8 +102,16 @@ async function fetchFrontPage(req, res){
                     }
                 }
             })
+            let upComingEvents = await Event.findAll({
+                where: {
+                    endDate: {
+                        [Op.gt]:Date.now()
+                    },
+                    status: "active"
+                },order:[['endDate', 'ASC']], limit: 3
+            })
             let verseOfWeek = await Verse.findOne({status: 'active'});
-            return responseApi(res, 200, {nextEvent, verseOfWeek}, 'Site components fetched');
+            return responseApi(res, 200, {nextEvent, verseOfWeek, upComingEvents}, 'Site components fetched');
 
         }catch(e){
             console.error(e.message);

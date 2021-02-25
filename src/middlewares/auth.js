@@ -6,9 +6,9 @@ const auth = async (req,res, next) =>{
         const token = req.header("Authorization").replace('Bearer ', '');
         const decoded = await jwt.verify(token, 'cmssecret');
         const user = await User.findOne({where: {username: decoded.username}})
-        console.log("middleware here");
-
+       
         if(user){
+          //  console.log("Im here")
             req.user = user
             req.token = token
         }else{
@@ -19,6 +19,7 @@ const auth = async (req,res, next) =>{
     }catch(e){
         return res.status(401).send("{error: 'Please authenticate ' }")
     }
+    
     next()
 }
 

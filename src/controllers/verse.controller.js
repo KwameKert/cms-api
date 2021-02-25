@@ -9,11 +9,16 @@ const responseApi = (res, status, data, message)=>{
 
 async function saveVerse(req, res){
     try{
-     //   console.log("Im here");
-        await Verse.update({status: 'inactive'});
+       
+        console.log("Im here");
+        let verses = await Verse.findAll();
+        if(verses.length > 0){
+            await Verse.update({where:{status: 'inactive'}});
+        }
         let sermon = await Verse.create({...req.body});
         return responseApi(res, 201, sermon, "Verse saved successfully");
     }catch(error){
+        console.trace(error)
         console.error(error.message);
         return responseApi(res, 500, null, error.message);
     }

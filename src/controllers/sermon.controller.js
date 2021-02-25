@@ -8,9 +8,12 @@ const responseApi = (res, status, data, message)=>{
 
 async function saveSermon(req, res){
     try{
+        console.log("im here")
+        console.log(req.body)
         let sermon = await Sermon.create({...req.body});
         return responseApi(res, 201, sermon, "Sermon saved successfully");
     }catch(error){
+        console.trace(e)
         console.error(error.message);
         return responseApi(res, 500, null, error.message);
     }
