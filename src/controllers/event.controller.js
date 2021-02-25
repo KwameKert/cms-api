@@ -102,6 +102,7 @@ async function fetchFrontPage(req, res){
                     }
                 }
             })
+            
             let upComingEvents = await Event.findAll({
                 where: {
                     endDate: {
