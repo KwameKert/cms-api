@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm test",
+    "start": " env-cmd -f ./.env node src/index",
     "dev": " env-cmd -f ./dev.env nodemon src/index.js "
   },
   "repository": {
