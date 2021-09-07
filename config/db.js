@@ -1,36 +1,29 @@
-const Sequelize  = require('sequelize') ;
+const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'postgres',
-  dialectOptions: {
-    ssl: true
+const sequelize = new Sequelize(
+  process.env.DATABASE_NAME,
+  process.env.DATABASE_USER,
+  process.env.DATABASE_PASSWORD,
+  {
+    dialect: "postgres",
+    host: process.env.DATABASE_HOST,
+    logging: false,
   }
-}) // Example for postgres
+); // Example for postgres
 
-// const sequelize = new Sequelize(
-//     process.env.DATABASE,
-//     process.env.DATABASE_USER,
-//     process.env.DATABASE_PASSWORD,
-//     {
-// 	logging: false,
-//         host: process.env.DATABASE_HOST,
-//         dialect: 'postgres',
-//     },
-// );
-
-async function connect(){
-  //console.log('password here',process.env.DATABASE_PASSWORD)
-    
-  // console.log('db name', process.env.DATABASE);
-   await sequelize.authenticate();
+async function connect() {
+  await sequelize.authenticate();
+  // await sequelize.sync({
+  //   force: true,
+  // });
 }
 
-connect().then(()=>{
-  console.log('Connection has been established successfully.');
-}).catch(error=>{ 
-  console.error('Unable to connect to the database:', error);
- })
-
-
+connect()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((error) => {
+    console.error("Unable to connect to the database:", error);
+  });
 
 module.exports = sequelize;
