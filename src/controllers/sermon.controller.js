@@ -35,7 +35,13 @@ async function fetchSermons(req, res) {
     const { page, size } = req.query;
     const { limit, offset } = getPagination(page, size);
 
-    let data = await Sermon.findAndCountAll({ order: [["id", "DESC"]] });
+    console.log("page ---> ", page, "size ---> ", size);
+
+    let data = await Sermon.findAndCountAll({
+      order: [["id", "DESC"]],
+      limit: size,
+      offset: offset,
+    });
     let sermons = getPagingData(data, page, size);
     if (sermons.length < 1) {
       return responseApi(res, 204, null, "No sermons found");
