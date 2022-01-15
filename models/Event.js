@@ -11,7 +11,6 @@ const Event = sequelize.define("Event", {
   imageUrl: DataTypes.STRING,
   startDate: DataTypes.DATE,
   endDate: DataTypes.DATE,
-  videoUrl: DataTypes.STRING,
   content: DataTypes.TEXT,
 });
 

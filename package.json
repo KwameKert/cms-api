@@ -6,7 +6,8 @@
   "scripts": {
     "test": "npm test",
     "start": " node src/index",
-    "dev": "env-cmd -f ./dev.env nodemon src/index.js "
+    "dev": "env-cmd -f ./dev.env nodemon src/index.js ",
+    "staging": "env-cmd -f ./staging.env nodemon src/index.js "
   },
   "repository": {
     "type": "git",
