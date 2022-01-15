@@ -12,6 +12,13 @@ const sequelize = new Sequelize(
 ); // Example for postgres
 
 async function connect() {
+  console.log(
+    "database --> url ",
+    process.env.DATABASE_NAME,
+    process.env.DATABASE_USER,
+    process.env.DATABASE_PASSWORD,
+    process.env.DATABASE_HOST
+  );
   await sequelize.authenticate();
   // await sequelize.sync({
   //   force: true,
