@@ -7,6 +7,7 @@ const Event = sequelize.define("Event", {
     type: DataTypes.ENUM("active", "inactive"),
     defaultValue: "inactive",
   },
+  videoId: DataTypes.STRING,
   imageUrl: DataTypes.STRING,
   startDate: DataTypes.DATE,
   endDate: DataTypes.DATE,
