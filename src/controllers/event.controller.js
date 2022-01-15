@@ -117,6 +117,7 @@ async function fetchLatestEvent(req, res) {
         endDate: {
           [Op.gt]: Date.now(),
         },
+        status: "active",
       },
     });
 
@@ -125,6 +126,14 @@ async function fetchLatestEvent(req, res) {
     }
 
     return responseApi(res, 200, { data }, "Event found");
+  } catch (e) {
+    console.error(e.message);
+    return responseApi(res, 500, null, e.message);
+  }
+}
+
+async function publishEvent(req, res) {
+  try {
   } catch (e) {
     console.error(e.message);
     return responseApi(res, 500, null, e.message);
