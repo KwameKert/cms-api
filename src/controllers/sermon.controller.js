@@ -35,8 +35,6 @@ async function fetchSermons(req, res) {
     const { page, size } = req.query;
     const { limit, offset } = getPagination(page, size);
 
-    console.log("page ---> ", page, "size ---> ", size);
-
     let data = await Sermon.findAndCountAll({
       order: [["id", "DESC"]],
       limit: size,
