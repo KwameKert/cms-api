@@ -51,6 +51,28 @@ async function fetchSermons(req, res) {
   }
 }
 
+async function fetchRecommendedSermons(req, res) {
+  try {
+    const { page, size } = req.query;
+    const { limit, offset } = getPagination(page, size);
+
+    let data = await Sermon.findAndCountAll({
+      order: [["id", "DESC"]],
+      where: { featured: true },
+      limit: size,
+      offset: offset,
+    });
+    let sermons = getPagingData(data, page, size);
+    if (sermons.length < 1) {
+      return responseApi(res, 204, null, "No sermons found");
+    }
+    return responseApi(res, 200, sermons, "Sermons found");
+  } catch (error) {
+    console.error(error.message);
+    return responseApi(res, 500, null, error.message);
+  }
+}
+
 async function getSermon(query) {
   let sermon = await Sermon.findOne({ ...query });
   return sermon;
@@ -60,4 +82,5 @@ module.exports = {
   saveSermon,
   updateSermon,
   fetchSermons,
+  fetchRecommendedSermons,
 };

@@ -6,6 +6,7 @@ const Sermon = sequelize.define("sermon", {
   description: DataTypes.TEXT,
   videoId: DataTypes.STRING,
   imageUrl: DataTypes.STRING,
+  featured: DataTypes.BOOLEAN,
   status: {
     type: DataTypes.ENUM("active", "inactive", "live"),
     defaultValue: "active",

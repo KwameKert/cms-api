@@ -4,6 +4,7 @@ const router = express.Router();
 const authMiddleware = require("../middlewares/auth");
 
 router.get("/", sermonController.fetchSermons);
+router.get("/recommended", sermonController.fetchRecommendedSermons);
 router.post("/", authMiddleware, sermonController.saveSermon);
 router.put("/", authMiddleware, sermonController.updateSermon);
 
